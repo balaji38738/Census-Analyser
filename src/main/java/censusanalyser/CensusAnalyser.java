@@ -25,10 +25,6 @@ public class CensusAnalyser {
             CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();;
             int namOfEateries = 0;
-            /*while (censusCSVIterator.hasNext()) {
-                namOfEateries++;
-                IndiaCensusCSV censusData = censusCSVIterator.next();
-            }*/
             Iterable<IndiaCensusCSV> indiaCensusCSVIterable = () -> censusCSVIterator;
             namOfEateries = (int) StreamSupport.stream(indiaCensusCSVIterable.spliterator(), false).count();
             return namOfEateries;
@@ -36,6 +32,9 @@ public class CensusAnalyser {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         } catch (RuntimeException e) {
+            if(e.getMessage().contains("header!"))
+                throw new CensusAnalyserException(e.getMessage(),
+                        CensusAnalyserException.ExceptionType.INVALID_FILE_HEADER);
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.INVALID_FILE_DATA);
         }
