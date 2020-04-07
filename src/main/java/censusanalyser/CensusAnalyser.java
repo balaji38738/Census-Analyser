@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
@@ -19,10 +20,12 @@ public class CensusAnalyser {
             CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
             Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();;
             int namOfEateries = 0;
-            while (censusCSVIterator.hasNext()) {
+            /*while (censusCSVIterator.hasNext()) {
                 namOfEateries++;
                 IndiaCensusCSV censusData = censusCSVIterator.next();
-            }
+            }*/
+            Iterable<IndiaCensusCSV> indiaCensusCSVIterable = () -> censusCSVIterator;
+            namOfEateries = (int) StreamSupport.stream(indiaCensusCSVIterable.spliterator(), false).count();
             return namOfEateries;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
