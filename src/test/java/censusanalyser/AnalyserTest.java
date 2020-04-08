@@ -11,8 +11,8 @@ public class AnalyserTest {
     private static final String WRONG_CENSUS_CSV_FILE_DELIMITER = "./src/test/resources/CensusInvalidDelimiter.csv";
     private static final String WRONG_CENSUS_CSV_FILE_HEADER = "./src/test/resources/CensusInvalidHeader.csv";
 
-    private static final String WRONG_STATE_CODE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCensusData.csv";
-    private static final String WRONG_STATE_CODE_CSV_FILE_TYPE = "./src/test/resources/CensusData.txt";
+    private static final String WRONG_STATE_CODE_CSV_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
+    private static final String WRONG_STATE_CODE_CSV_FILE_TYPE = "./src/test/resources/StateCodeData.txt";
     private static final String WRONG_STATE_CODE_CSV_FILE_DELIMITER = "./src/test/resources/StateInvalidDelimiter.csv";
     private static final String WRONG_STATE_CODE_CSV_FILE_HEADER = "./src/test/resources/StateInvalidHeader.csv";
     private static final String INDIA_STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
