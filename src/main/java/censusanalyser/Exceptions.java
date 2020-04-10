@@ -5,10 +5,15 @@ public class Exceptions extends Exception {
     enum ExceptionType {
         FILE_PROBLEM,
         INVALID_FILE_TYPE,
-        INVALID_FILE_DATA,
-        INVALID_FILE_HEADER
+        INVALID_FILE_DELIMITER,
+        INVALID_FILE_HEADER,
+        UNABLE_TO_PARSE;
     }
 
+    public Exceptions(String message, String name) {
+        super(message);
+        this.type = ExceptionType.valueOf(name);
+    }
     ExceptionType type;
 
     public Exceptions(String message, ExceptionType type) {

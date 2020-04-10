@@ -57,7 +57,7 @@ public class AnalyserTest {
             analyser.loadIndiaCensusData(WRONG_CENSUS_CSV_FILE_DELIMITER);
             analyser.loadIndiaStateCodeData(WRONG_STATE_CODE_CSV_FILE_DELIMITER);
         } catch (Exceptions e) {
-            Assert.assertEquals(Exceptions.ExceptionType.INVALID_FILE_DATA, e.type);
+            Assert.assertEquals(Exceptions.ExceptionType.INVALID_FILE_DELIMITER, e.type);
         }
     }
 

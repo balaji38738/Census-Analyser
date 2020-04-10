@@ -15,7 +15,7 @@ public class OpenCSVBuilder implements ICSVBuilder {
             CsvToBean<T> csvToBean = csvToBeanBuilder.build();
             return csvToBean.iterator();
         } catch (IllegalStateException e) {
-            throw new Exceptions(e.getMessage(), Exceptions.ExceptionType.FILE_PROBLEM);
+            throw new Exceptions(e.getMessage(), Exceptions.ExceptionType.UNABLE_TO_PARSE);
         }
     }
 }

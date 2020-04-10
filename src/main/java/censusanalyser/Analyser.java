@@ -29,7 +29,7 @@ public class Analyser {
                 throw new Exceptions(e.getMessage(),
                         Exceptions.ExceptionType.INVALID_FILE_HEADER);
             throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.INVALID_FILE_DATA);
+                    Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
         }
     }
 
@@ -50,7 +50,7 @@ public class Analyser {
                 throw new Exceptions(e.getMessage(),
                         Exceptions.ExceptionType.INVALID_FILE_HEADER);
             throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.INVALID_FILE_DATA);
+                    Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
         }
     }
 
