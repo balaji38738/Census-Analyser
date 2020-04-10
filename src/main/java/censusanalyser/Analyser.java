@@ -1,14 +1,12 @@
 package censusanalyser;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.stream.StreamSupport;
+import java.util.List;
 
 public class Analyser {
     public int loadIndiaCensusData(String csvFilePath) throws Exceptions {
@@ -19,8 +17,8 @@ public class Analyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvBuilder.getCSVFileIterator(reader,IndiaCensusCSV.class);
-            return this.getCount(censusCSVIterator);
+            List<IndiaCensusCSV> csvFileList = csvBuilder.getCSVFileList(reader, IndiaCensusCSV.class);
+            return csvFileList.size();
         } catch (IOException e) {
             throw new Exceptions(e.getMessage(),
                     Exceptions.ExceptionType.FILE_PROBLEM);
@@ -30,6 +28,8 @@ public class Analyser {
                         Exceptions.ExceptionType.INVALID_FILE_HEADER);
             throw new Exceptions(e.getMessage(),
                     Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
+        } catch (CSVBuilderExceptions e) {
+            throw new Exceptions(e.getMessage(), e.type.name());
         }
     }
 
@@ -40,8 +40,8 @@ public class Analyser {
 
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<CSVStates> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, CSVStates.class);
-            return this.getCount(censusCSVIterator);
+            List<CSVStates> csvFileList = csvBuilder.getCSVFileList(reader, CSVStates.class);
+            return csvFileList.size();
         } catch (IOException e) {
             throw new Exceptions(e.getMessage(),
                     Exceptions.ExceptionType.FILE_PROBLEM);
@@ -51,6 +51,8 @@ public class Analyser {
                         Exceptions.ExceptionType.INVALID_FILE_HEADER);
             throw new Exceptions(e.getMessage(),
                     Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
+        } catch (CSVBuilderExceptions e) {
+            throw new Exceptions(e.getMessage(), e.type.name());
         }
     }
 

@@ -9,12 +9,12 @@ public class Exceptions extends Exception {
         INVALID_FILE_HEADER,
         UNABLE_TO_PARSE;
     }
+    ExceptionType type;
 
     public Exceptions(String message, String name) {
         super(message);
         this.type = ExceptionType.valueOf(name);
     }
-    ExceptionType type;
 
     public Exceptions(String message, ExceptionType type) {
         super(message);
