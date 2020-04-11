@@ -16,13 +16,23 @@ public class IndiaCensusCSV {
     @CsvBindByName(column = "DensityPerSqKm", required = true)
     public int densityPerSqKm;
 
+    public IndiaCensusCSV() {
+    }
+
+    public IndiaCensusCSV(String state, int population, int areaInSqKm, int densityPerSqKm) {
+        this.state = state;
+        this.population = population;
+        this.areaInSqKm = areaInSqKm;
+        this.densityPerSqKm = densityPerSqKm;
+    }
+
     @Override
     public String toString() {
-        return "IndiaCensusCSV{" +
-                "State='" + state + '\'' +
-                ", Population='" + population + '\'' +
-                ", AreaInSqKm='" + areaInSqKm + '\'' +
-                ", DensityPerSqKm='" + densityPerSqKm + '\'' +
+        return "IndiaStateCensusCSV{" +
+                "state='" + state + '\'' +
+                ", population=" + population +
+                ", areaInSqKm=" + areaInSqKm +
+                ", densityPerSqKm=" + densityPerSqKm +
                 '}';
     }
 }

@@ -1,64 +1,91 @@
 package censusanalyser;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.stream.StreamSupport;
+import java.util.Comparator;
 import java.util.List;
 
+
 public class Analyser {
-    public int loadIndiaCensusData(String csvFilePath) throws Exceptions {
+    ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
+    List<IndiaCensusCSV> stateCensusRecord = null;
+    List<CSVStates> stateCodeRecords = null;
 
-        if(!csvFilePath.contains(".csv"))
-            throw new Exceptions("Invalid file type",
-                    Exceptions.ExceptionType.INVALID_FILE_TYPE);
-
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            List<IndiaCensusCSV> csvFileList = csvBuilder.getCSVFileList(reader, IndiaCensusCSV.class);
-            return csvFileList.size();
-        } catch (IOException e) {
-            throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            if(e.getMessage().contains("header!"))
-                throw new Exceptions(e.getMessage(),
-                        Exceptions.ExceptionType.INVALID_FILE_HEADER);
-            throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
-        } catch (CSVBuilderExceptions e) {
-            throw new Exceptions(e.getMessage(), e.type.name());
+    public int loadIndiaCensusData(String csvFilePath) throws CSVBuilderExceptions
+    {
+        this.checkValidCSVFile(csvFilePath);
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        {
+            stateCensusRecord = csvBuilder.getCSVFileList(reader, IndiaCensusCSV.class);
+            return stateCensusRecord.size();
+        }catch (IOException e) {
+            throw new CSVBuilderExceptions(e.getMessage(),
+                    CSVBuilderExceptions.ExceptionType.FILE_PROBLEM);
+        }catch (RuntimeException e)
+        {
+            if (e.getMessage().contains("header!"))
+                throw new CSVBuilderExceptions(e.getMessage(),
+                        CSVBuilderExceptions.ExceptionType.INVALID_FILE_HEADER);
+            throw new CSVBuilderExceptions(e.getMessage(),
+                    CSVBuilderExceptions.ExceptionType.INVALID_FILE_DELIMITER);
         }
     }
 
-    public int loadIndiaStateCodeData(String csvFilePath) throws Exceptions {
+    private void checkValidCSVFile(String csvFilePath) throws CSVBuilderExceptions
+    {
         if(!csvFilePath.contains(".csv"))
-            throw new Exceptions("Invalid file type",
-                    Exceptions.ExceptionType.INVALID_FILE_TYPE);
-
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath))) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            List<CSVStates> csvFileList = csvBuilder.getCSVFileList(reader, CSVStates.class);
-            return csvFileList.size();
-        } catch (IOException e) {
-            throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            if(e.getMessage().contains("header!"))
-                throw new Exceptions(e.getMessage(),
-                        Exceptions.ExceptionType.INVALID_FILE_HEADER);
-            throw new Exceptions(e.getMessage(),
-                    Exceptions.ExceptionType.INVALID_FILE_DELIMITER);
-        } catch (CSVBuilderExceptions e) {
-            throw new Exceptions(e.getMessage(), e.type.name());
+        {
+            throw new CSVBuilderExceptions("Invalid file type",
+                    CSVBuilderExceptions.ExceptionType.INVALID_FILE_TYPE);
         }
     }
 
-    private <T> int getCount(Iterator<T> iterator) {
-        Iterable<T> iterable = () -> iterator;
-        int numOfEntries = (int)StreamSupport.stream(iterable.spliterator(), false).count();
-        return numOfEntries;
+    public int loadIndiaStateCodeData(String csvFilePath) throws CSVBuilderExceptions
+    {
+        this.checkValidCSVFile(csvFilePath);
+        try( Reader reader = Files.newBufferedReader(Paths.get(csvFilePath)))
+        {
+            stateCodeRecords = csvBuilder.getCSVFileList(reader, CSVStates.class);
+            return stateCodeRecords.size();
+        }catch (IOException e) {
+            throw new CSVBuilderExceptions(e.getMessage(),
+                    CSVBuilderExceptions.ExceptionType.FILE_PROBLEM);
+        }catch (RuntimeException e)
+        {
+            if (e.getMessage().contains("header!"))
+                throw new CSVBuilderExceptions(e.getMessage(),
+                        CSVBuilderExceptions.ExceptionType.INVALID_FILE_HEADER);
+            throw new CSVBuilderExceptions(e.getMessage(),
+                    CSVBuilderExceptions.ExceptionType.INVALID_FILE_DELIMITER);
+        }
     }
+
+    public String getStateWiseSortedData() throws CSVBuilderExceptions
+    {
+        if (stateCensusRecord == null || stateCensusRecord.size() == 0){
+            throw new CSVBuilderExceptions("Data empty", CSVBuilderExceptions.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<IndiaCensusCSV> censusCSVComparator = Comparator.comparing(state -> state.state);
+        this.sort(censusCSVComparator, stateCensusRecord);
+        return new Gson().toJson(stateCensusRecord);
+    }
+
+    public <T> void  sort(Comparator<T> censusCSVComparator, List<T> censusRecord)
+    {
+        for (int iterator = 0; iterator < censusRecord.size()-1; iterator++){
+            for (int innerIterator = 0; innerIterator < censusRecord.size()-iterator-1; innerIterator++){
+                T census1 = censusRecord.get(innerIterator);
+                T census2 = censusRecord.get(innerIterator+1);
+                if (censusCSVComparator.compare(census1,census2) > 0){
+                    censusRecord.set(innerIterator, census2);
+                    censusRecord.set(innerIterator+1, census1);
+                }
+            }
+        }
+    }
+
 }
