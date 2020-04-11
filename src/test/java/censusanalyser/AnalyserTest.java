@@ -82,4 +82,13 @@ public class AnalyserTest {
         Assert.assertEquals("West Bengal" , censusCSV[28].state);
     }
 
+    @Test
+    public void givenTheStateCodeCSVFile_WhenSortedOnStateCode_ShouldReturnSortedList() throws CSVBuilderExceptions
+    {
+        analyser.loadIndiaStateCodeData(INDIA_STATE_CODE_CSV_FILE_PATH);
+        String sortedStateCodeData = analyser.getStateCodeWiseSortedData();
+        CSVStates[] censusCSV = new Gson().fromJson(sortedStateCodeData, CSVStates[].class);
+        Assert.assertEquals("AD", censusCSV[0].stateCode);
+        Assert.assertEquals("WB" , censusCSV[36].stateCode);
+    }
 }

@@ -88,4 +88,12 @@ public class Analyser {
         }
     }
 
+    public String getStateCodeWiseSortedData() throws CSVBuilderExceptions{
+        if (stateCodeRecords == null || stateCodeRecords.size() == 0){
+            throw new CSVBuilderExceptions("Data empty", CSVBuilderExceptions.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<CSVStates> stateCodeCSVComparator = Comparator.comparing(stateCode -> stateCode.stateCode );
+        this.sort(stateCodeCSVComparator, stateCodeRecords);
+        return new Gson().toJson(stateCodeRecords);
+    }
 }
