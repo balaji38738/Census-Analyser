@@ -10,7 +10,7 @@ public class CSVStates {
         public String stateName;
 
         @CsvBindByName(column = "TIN", required = true)
-        public String tin;
+        public int tin;
 
         @CsvBindByName(column = "StateCode", required = true)
         public String stateCode;
@@ -19,7 +19,7 @@ public class CSVStates {
 
         }
 
-        public CSVStates(int srNo, String stateName, String tin, String stateCode) {
+        public CSVStates(int srNo, String stateName, int tin, String stateCode) {
                 this.srNo = srNo;
                 this.stateName = stateName;
                 this.tin = tin;

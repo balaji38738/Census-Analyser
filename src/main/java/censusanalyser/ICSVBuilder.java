@@ -1,9 +1,12 @@
 package censusanalyser;
 
-import java.util.HashMap;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 public interface ICSVBuilder {
-    <T> HashMap<T, T> getCSVFileMap(Reader reader, Class csvClass) throws CSVBuilderExceptions;
+
+    <T> Iterator<T> getCSVFileIterator(Reader reader, Class<T> csvClass) throws CSVBuilderExceptions;
+    <T> List<T> getCSVFileList(Reader reader, Class<T> csvClass) throws CSVBuilderExceptions;
 }
