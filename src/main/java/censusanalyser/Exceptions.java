@@ -9,7 +9,8 @@ public class Exceptions extends Exception{
     }
 
     enum ExceptionType {
-        FILE_PROBLEM, UNABLE_TO_PARSE, NO_CENSUS_DATA
+        FILE_PROBLEM, UNABLE_TO_PARSE,
+        NO_CENSUS_DATA, CSV_FILE_INTERNAL_ISSUES
     }
 
     ExceptionType type;

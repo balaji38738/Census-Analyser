@@ -29,7 +29,7 @@ public class OpenCSVBuilder implements ICSVBuilder {
             return csvToBeanBuilder.build();
         }catch (IllegalStateException e){
             throw new CSVBuilderExceptions(e.getMessage(),
-                    Exceptions.ExceptionType.UNABLE_TO_PARSE);
+                    CSVBuilderExceptions.ExceptionType.UNABLE_TO_PARSE);
         }
     }
 }

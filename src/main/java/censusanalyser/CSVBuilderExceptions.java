@@ -7,14 +7,14 @@ public class CSVBuilderExceptions extends Throwable{
         UNABLE_TO_PARSE,
     }
 
-    Exceptions.ExceptionType type;
+    ExceptionType type;
 
-    public CSVBuilderExceptions(String message, Exceptions.ExceptionType type) {
+    public CSVBuilderExceptions(String message, ExceptionType type) {
         super(message);
         this.type = type;
     }
 
-    public CSVBuilderExceptions(String message, Exceptions.ExceptionType type, Throwable cause) {
+    public CSVBuilderExceptions(String message, ExceptionType type, Throwable cause) {
         super(message, cause);
         this.type = type;
     }
