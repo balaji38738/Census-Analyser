@@ -66,7 +66,7 @@ public class Analyser {
         if (csvFileList == null || csvFileList.size() == 0){
             throw new Exceptions("Data empty", Exceptions.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<IndianStateDAO> censusComparator = Comparator.comparing(IndianStateDAO -> IndianStateDAO.densityPerSqKm);
+        Comparator<IndianStateDAO> censusComparator = Comparator.comparing(IndianStateDAO -> IndianStateDAO.areaInSqKm);
         this.sort(censusComparator);
         String sortedStateCensusJson = new Gson().toJson(this.csvFileList);
         return sortedStateCensusJson;
