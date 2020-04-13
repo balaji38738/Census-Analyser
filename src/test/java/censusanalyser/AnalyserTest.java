@@ -102,4 +102,17 @@ public class AnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenTheUSCensusCSVFile_WhenSortedOnState_ShouldReturnSortedList()
+    {
+        String sortedCensusData = null;
+        try {
+            sortedCensusData = analyser.getUSPopulationWiseSortedData(US_CENSUS_CSV_FILE_PATH);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("California", censusCSV[0].State);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
 }
