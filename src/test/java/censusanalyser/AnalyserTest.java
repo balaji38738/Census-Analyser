@@ -45,10 +45,14 @@ public class AnalyserTest {
     }
 
     @Test
-    public void givenUSCENSUSDATA_ShouldReturnCorrectRecords() {
+    public void givenUSCENSUSDATA_ShouldReturnCorrectRecords(){
         int data = 0;
-        data = analyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
-        Assert.assertEquals(51,data);
+        try {
+            data = analyser.loadUSCensusData(US_CENSUS_CSV_FILE_PATH);
+            Assert.assertEquals(51, data);
+        }catch (Exceptions e){
+            e.printStackTrace();
+        }
     }
 
     @Test
