@@ -8,8 +8,9 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -25,7 +26,7 @@ public class Analyser {
 
     public int loadCensusData(Country country, String... csvFilePath) throws Exceptions{
         try {
-            csvFileMap = new CensusLoader().loadCensusData(country, csvFilePath);
+            csvFileMap = new CensusAdapterFactory().censusFactory(country, csvFilePath);
             return csvFileMap.size();
         }catch (NullPointerException e) {
             throw new Exceptions(e.getMessage(),
