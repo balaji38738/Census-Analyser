@@ -1,7 +1,6 @@
 package censusanalyser;
 
 import censusanalyser.DAO.CensusDAO;
-
 import java.util.Map;
 
 public class CensusAdapterFactory {

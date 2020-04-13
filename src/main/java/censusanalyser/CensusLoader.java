@@ -36,7 +36,7 @@ public class CensusLoader {
             ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
             Iterator<T> csvIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
             Iterable<T> censusCSVIterable = () -> csvIterator;
-            if (censusCSVClass.getName().equals("censusanalyser.IndiaStateCensusCSV")) {
+            if (censusCSVClass.getName().equals("censusanalyser.IndiaCensusCSV")) {
                 StreamSupport.stream(censusCSVIterable.spliterator(),false)
                         .map(IndiaCensusCSV.class::cast)
                         .forEach(censusCSV ->censusStateMap.put(censusCSV.state, new CensusDAO(censusCSV)));

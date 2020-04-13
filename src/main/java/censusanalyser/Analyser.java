@@ -17,7 +17,7 @@ public class Analyser {
     }
 
     public Analyser(Map<String, CensusDAO> censusDAOMap) {
-        this.censusStateMap = new HashMap<>();
+
     }
 
     public Analyser() {
@@ -29,13 +29,13 @@ public class Analyser {
         return censusStateMap.size();
     }
 
-    public String getStateWiseSortedData(String csvFilePath) throws Exceptions
+    public String getStateWiseSortedData(SortByField.Parameter parameter) throws Exceptions
     {
         if (censusStateMap == null || censusStateMap.size() == 0){
             throw new Exceptions("Data empty", Exceptions.ExceptionType.NO_CENSUS_DATA);
         }
-        Comparator<CensusDAO> censusComparator = Comparator.comparing(census -> census.state);
-
+        SortByField sortByField = new SortByField();
+        Comparator<CensusDAO> censusComparator = sortByField.getParameter(parameter);
         ArrayList censusDTOS = censusStateMap.values().stream().sorted(censusComparator)
                 .map(CensusDAO -> CensusDAO.getCensusDTO(country))
                 .collect(Collectors.toCollection(ArrayList::new));

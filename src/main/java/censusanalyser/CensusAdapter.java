@@ -22,11 +22,11 @@ public abstract class CensusAdapter {
             Iterator<T> censusCSVIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
             Iterable<T> censusDAOIterable = () -> censusCSVIterator;
 
-            if (censusCSVClass.getName().equals("Analyser.IndiaStateCensusCSV")) {
+            if (censusCSVClass.getName().equals("censusanalyser.IndiaCensusCSV")) {
                 StreamSupport.stream(censusDAOIterable.spliterator(), false)
                         .map(IndiaCensusCSV.class::cast)
                         .forEach(censusCSV -> censusDAOMap.put(censusCSV.state, new CensusDAO(censusCSV)));
-            } else if (censusCSVClass.getName().equals("Analyser.USCensusCSV")) {
+            } else if (censusCSVClass.getName().equals("censusanalyser.USCensusCSV")) {
                 StreamSupport.stream(censusDAOIterable.spliterator(), false)
                         .map(USCensusCSV.class::cast)
                         .forEach(censusCSV -> censusDAOMap.put(censusCSV.State, new CensusDAO(censusCSV)));

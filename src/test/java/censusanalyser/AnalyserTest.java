@@ -77,12 +77,12 @@ public class AnalyserTest {
     }
 
     @Test
-    public void ggivenTheStateCensusCSVFile_WhenSortedOnWrongState_ShouldReturnWrongSortedList()
+    public void givenTheStateCensusCSVFile_WhenSortedOnWrongState_ShouldReturnWrongSortedList()
     {
         String sortedCensusData = null;
         try {
             Analyser analyser = new Analyser(Analyser.Country.INDIA);
-            sortedCensusData = analyser.getStateWiseSortedData(INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.STATE);
             IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
             Assert.assertNotEquals("Goa", censusCSV[0].state);
         }catch(Exceptions e){
@@ -96,7 +96,7 @@ public class AnalyserTest {
         String sortedCensusData = null;
         try {
             Analyser analyser = new Analyser(Analyser.Country.INDIA);
-            sortedCensusData = analyser.getStateWiseSortedData(INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.STATE);
             IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
             Assert.assertEquals("Andhra Pradesh", censusCSV[0].state);
         }catch(Exceptions e){
@@ -104,6 +104,107 @@ public class AnalyserTest {
         }
     }
 
+    @Test
+    public void givenTheStateCensusCSVFile_WhenSortedOnArea_ShouldReturnSortedList()
+    {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.INDIA);
+            analyser.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.AREA);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Rajasthan", censusCSV[censusCSV.length - 1].state);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenTheStateCensusCSVFile_WhenSortedOnPopulation_ShouldReturnSortedList()
+    {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.INDIA);
+            analyser.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.POPULATION);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Uttar Pradesh", censusCSV[censusCSV.length - 1].state);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenTheStateCensusCSVFile_WhenSortedOnDensity_ShouldReturnSortedList()
+    {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.INDIA);
+            analyser.loadCensusData(INDIA_CENSUS_CSV_FILE_PATH, INDIA_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.DENSITY);
+            IndiaCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, IndiaCensusCSV[].class);
+            Assert.assertEquals("Bihar", censusCSV[censusCSV.length - 1].state);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusDATA_WhenSortedOnState_ShouldReturnSortedResults() {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.US);
+            analyser.loadCensusData(US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.STATE);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Wyoming", censusCSV[censusCSV.length - 1].State);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusDATA_WhenSortedOnPopulation_ShouldReturnSortedResults() {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.US);
+            analyser.loadCensusData(US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.POPULATION);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("California", censusCSV[censusCSV.length - 1].State);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusDATA_WhenSortedOnDensity_ShouldReturnSortedResults() {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.US);
+            analyser.loadCensusData(US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.DENSITY);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("District of Columbia", censusCSV[censusCSV.length - 1].State);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void givenUSCensusDATA_WhenSortedOnArea_ShouldReturnSortedResults() {
+        String sortedCensusData = null;
+        try {
+            Analyser analyser = new Analyser(Analyser.Country.US);
+            analyser.loadCensusData(US_CENSUS_CSV_FILE_PATH);
+            sortedCensusData = analyser.getStateWiseSortedData(SortByField.Parameter.AREA);
+            USCensusCSV[] censusCSV = new Gson().fromJson(sortedCensusData, USCensusCSV[].class);
+            Assert.assertEquals("Alaska", censusCSV[censusCSV.length - 1].State);
+        }catch(Exceptions e){
+            e.printStackTrace();
+        }
+    }
+    
     @Test
     public void givenUSCensusData_ShouldReturnCorrectRecords() {
         int data = 0;
